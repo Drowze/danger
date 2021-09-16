@@ -74,6 +74,7 @@ module Danger
       def client
         raise "No API token given, please provide one using `DANGER_GITHUB_API_TOKEN`" if !@token && !support_tokenless_auth
         @client ||= begin
+          Octokit.middleware.response :logger
           Octokit.configure do |config|
             config.connection_options[:ssl] = { verify: verify_ssl }
           end
